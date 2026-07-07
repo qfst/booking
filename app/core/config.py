@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     :param POSTGRES_PORT: Порт для подключения к PostgreSQL
     :param POSTGRES_DB: Имя целевой базы данных PostgreSQL
     """
+
     SECRET_KEY: str
     ACCESS_TOKEN_EXPIRE_MINUTES: int
 

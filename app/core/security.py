@@ -25,6 +25,7 @@ JWT_ALGORITHM = 'HS256'
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/auth/login')
 
+
 def create_access_token(user_id: UUID) -> str:
     """Генерирует токен доступа (JWT) для пользователя.
 

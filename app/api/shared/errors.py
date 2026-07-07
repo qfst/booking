@@ -9,7 +9,7 @@ class LocationType(StrEnum):
     HEADER = 'header'
     BODY = 'body'
     PATH = 'path'
-    QUERY= 'query'
+    QUERY = 'query'
 
 
 class ValidationError(BaseModel):
@@ -40,17 +40,17 @@ class Error(BaseModel):
                         {
                             'field': 'some_path',
                             'detail': 'Путь не найден',
-                            'location_type': 'path'
+                            'location_type': 'path',
                         },
                         {
                             'field': 'some_header',
                             'detail': 'Заголовок не найден',
-                            'location_type': 'header'
+                            'location_type': 'header',
                         },
                         {
                             'field': 'some_body_field',
                             'detail': 'Поле не найдено',
-                            'location_type': 'body'
+                            'location_type': 'body',
                         },
                     ],
                 }

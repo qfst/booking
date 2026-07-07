@@ -26,7 +26,7 @@ async def test_login(
     login: str,
     password: str,
 ):
-    request = {"username": login, "password": password}
+    request = {'username': login, 'password': password}
     response = await client.post(PATH_AUTH, data=request)
 
     assert response.status_code == status.HTTP_200_OK
@@ -56,7 +56,7 @@ async def test_login_error_invalid_credentials(
     login: str,
     password: str,
 ):
-    request = {"username": login, "password": password}
+    request = {'username': login, 'password': password}
     response = await client.post(PATH_AUTH, data=request)
 
     assert response.status_code == status.HTTP_401_UNAUTHORIZED

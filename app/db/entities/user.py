@@ -9,6 +9,7 @@ from app.db.config import Base
 
 class UserRole(StrEnum):
     """Роли пользователей для разграничения прав доступа к системе."""
+
     ADMIN = 'admin'
     EMPLOYEE = 'employee'
 
@@ -21,6 +22,7 @@ class User(Base):
     :param password: Захешированная строка пароля пользователя.
     :param role: Роль пользователя в системе, определяющая уровень его доступа.
     """
+
     __tablename__ = 'users'
 
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True)

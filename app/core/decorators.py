@@ -13,6 +13,7 @@ from app.db.session_manager import create_session_manager
 
 logger = logging.getLogger(__name__)
 
+
 def with_session(transaction_read_only: bool):
     """Декоратор для автоматического управления сессией базы данных в функциях.
 
@@ -22,6 +23,7 @@ def with_session(transaction_read_only: bool):
     :param transaction_read_only: Флаг, указывающий на открытие транзакции в Read-Only
     :return: Обернутая функция с настроенным контекстом сессии базы данных.
     """
+
     def decorator(func):
         @wraps(func)
         async def wrapper(*args, **kwargs):

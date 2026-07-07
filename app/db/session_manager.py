@@ -44,7 +44,7 @@ class SessionManager:
         self,
         exc_type: type[BaseException] | None,
         exc_val: BaseException | None,
-        exc_tb: Any
+        exc_tb: Any,
     ) -> None:
         """Закрывает асинхронный контекст, завершая или откатывая транзакцию.
 
@@ -62,7 +62,7 @@ class SessionManager:
             if exc_type:
                 logger.error(
                     msg=f'Транзакция откатывается из-за необработанного исключения: '
-                        f'{exc_type.__name__}: {exc_val}',
+                    f'{exc_type.__name__}: {exc_val}',
                     exc_info=True,
                 )
                 await self._session.rollback()

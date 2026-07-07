@@ -18,10 +18,7 @@ async def lifespan(app: FastAPI):
     yield
 
 
-app = FastAPI(
-    title='Booking',
-    lifespan=lifespan
-)
+app = FastAPI(title='Booking', lifespan=lifespan)
 
 
 @app.get('/', include_in_schema=False)
