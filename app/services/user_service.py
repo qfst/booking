@@ -1,9 +1,11 @@
 import logging
+from uuid import UUID
 
 from app.core.decorators import with_session
-from app.core.exceptions import CredentialsInvalidError
+from app.core.exceptions import CredentialsInvalidError, UserNotFoundError
 from app.core.security import is_password_valid
 from app.db.entities import User
+from app.db.entities.user import UserRole
 from app.db.repositories.user_repository import UserRepository
 
 
@@ -36,3 +38,26 @@ class UserService:
             f'Пользователь успешно аутентифицирован: user_id={user.id} role={user.role}'
         )
         return user
+
+    @with_session(transaction_read_only=True)
+    async def get_user(self, user_id: UUID) -> User:
+        """Получает сущность пользователя.
+
+        :param user_id: Идентификатор пользователя.
+        :return: Сущность найденного пользователя.
+        :raises UserNotFound: Если пользователь не найден.
+        """
+        user: User = await UserRepository.find_by_id(user_id)
+        if not user:
+            logger.warning(f'Пользователь с user_id={user_id} не найден')
+            raise UserNotFoundError()
+        return user
+
+    @staticmethod
+    def is_admin(user: User) -> bool:
+        """Проверяет, обладает ли пользователь правами администратора.
+
+        :param user: Сущность проверяемого пользователя.
+        :return: True, если пользователь является администратором.
+        """
+        return user.role == UserRole.ADMIN

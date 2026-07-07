@@ -1,4 +1,5 @@
 import asyncio
+from uuid import UUID
 
 import pytest
 from alembic.config import Config
@@ -18,6 +19,11 @@ from tests.integration.utils import get_header_token
 
 
 PATH_AUTH = '/auth/login'
+PATH_BOOKING = '/bookings'
+
+
+def PATH_BOOKING_DELETE(booking_id: UUID) -> str:
+    return f'/bookings/{booking_id}'
 
 
 @pytest.fixture(scope='session', autouse=True)

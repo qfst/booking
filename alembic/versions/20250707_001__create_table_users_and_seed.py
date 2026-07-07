@@ -8,7 +8,7 @@ from alembic import op
 from app.core.security import hash_password
 
 
-revision: str = '20250627_001'
+revision: str = '20250707_001'
 down_revision: str | None = None
 branch_labels: str | Sequence[str] | None = None
 depends_on: str | Sequence[str] | None = None

@@ -1,4 +1,5 @@
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -16,6 +17,7 @@ class Settings(BaseSettings):
     :param POSTGRES_HOST: Адрес сервера базы данных PostgreSQL
     :param POSTGRES_PORT: Порт для подключения к PostgreSQL
     :param POSTGRES_DB: Имя целевой базы данных PostgreSQL
+    :param TIMEZONE_DEFAULT: Часовой пояс приложения по умолчанию.
     """
 
     SECRET_KEY: str
@@ -27,9 +29,11 @@ class Settings(BaseSettings):
     POSTGRES_PORT: int
     POSTGRES_DB: str
 
+    TIMEZONE_DEFAULT: ZoneInfo
+
     @property
     def DATABASE_URL(self) -> str:
-        """Формирует асинхронную строку подключения к PostgreSQL.
+        """Формирует асинхронную строку подключения к PostgreSQL для SQLAlchemy.
 
         :return: Полный URL подключения с драйвером asyncpg
         """
@@ -44,6 +48,7 @@ class Settings(BaseSettings):
 
     model_config = SettingsConfigDict(
         env_file=BASE_DIR / '.env',
+        extra='ignore',
     )
 
 

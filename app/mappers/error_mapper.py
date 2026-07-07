@@ -9,8 +9,12 @@ from app.core.messages import Message
 logger = logging.getLogger(__name__)
 
 _MESSAGES: dict[str, str] = {
+    'date_from_datetime_inexact': Message.DATE_INVALID,
+    'date_from_datetime_parsing': Message.DATE_INVALID,
     'missing': Message.MISSING_FIELD,
     'string_type': Message.STRING_INVALID,
+    'uuid_parsing': Message.UUID_INVALID,
+    'zoneinfo_str': Message.TIMEZONE_INVALID,
 }
 
 

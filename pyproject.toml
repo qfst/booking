@@ -21,6 +21,7 @@ pwdlib = { extras = ['argon2'], version = '^0.3.0' }
 tenacity = '^9.1.4'
 alembic = '^1.18.5'
 python-multipart = '^0.0.32'
+tzdata = "^2026.2"
 
 [tool.poetry.group.test.dependencies]
 pytest = '^8.4.1'
