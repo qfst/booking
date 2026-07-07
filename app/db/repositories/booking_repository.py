@@ -5,7 +5,7 @@ from sqlalchemy import delete, select, text
 from sqlalchemy.dialects.postgresql import insert
 
 from app.core.context import get_current_session
-from app.db.entities import Booking, Room, TimeSlot
+from app.db.entities import Booking
 from app.db.entities.booking import BookingRoomSlotProjection
 
 
@@ -79,8 +79,8 @@ class BookingRepository:
             select(
                 select(Booking.id)
                 .where(
-                    Room.id == room_id,
-                    TimeSlot.id == time_slot_id,
+                    Booking.room_id == room_id,
+                    Booking.slot_id == time_slot_id,
                     Booking.date == booking_date,
                 )
                 .exists()

@@ -23,6 +23,7 @@ from tests.integration.conftest import PATH_BOOKING
 from tests.integration.db_utils import (
     create_booking,
     delete_booking,
+    get_bookings_with_rooms_and_slots,
     get_bookings_with_rooms_and_slots_first,
     get_time_slots,
     get_user_by_role,
@@ -67,6 +68,46 @@ async def test_created(client: AsyncClient):
         if created_booking_id:
             await delete_booking(created_booking_id)
         assert await is_booking_room_slot_first_status_free(tomorrow)
+
+
+@pytest.mark.parametrize('client', ['employee'], indirect=True)
+async def test_created_second_booking(client: AsyncClient):
+    tomorrow = get_tomorrow_date()
+    employee = await get_user_by_role(UserRole.EMPLOYEE)
+    bookings = await get_bookings_with_rooms_and_slots(tomorrow)
+    already_created_booking = await create_booking(bookings[0], tomorrow, employee.id)
+
+    request = BookingCreateRequest(
+        room_id=bookings[1].room_id,
+        time_slot_id=bookings[1].time_slot_id,
+        booking_date=tomorrow,
+    )
+    created_booking_id = None
+    try:
+        response = await client.post(PATH_BOOKING, json=request.model_dump(mode='json'))
+        assert response.status_code == status.HTTP_201_CREATED
+        bookings = await get_bookings_with_rooms_and_slots(tomorrow)
+        already_booked = bookings[0]
+        api_booked = bookings[1]
+        assert already_booked.status == BookingStatus.BOOKED
+        assert api_booked.status == BookingStatus.BOOKED
+
+        actual = BookingCreateResponse.model_validate(response.json())
+        created_booking_id = actual.id
+        expected = BookingCreateResponse(
+            id=created_booking_id,
+            room_id=api_booked.room_id,
+            time_slot_id=api_booked.time_slot_id,
+            booking_date=tomorrow,
+        )
+        assert actual == expected
+    finally:
+        await delete_booking(already_created_booking.id)
+        if created_booking_id:
+            await delete_booking(created_booking_id)
+        bookings = await get_bookings_with_rooms_and_slots(tomorrow)
+        assert bookings[0].status == BookingStatus.FREE
+        assert bookings[1].status == BookingStatus.FREE
 
 
 @pytest.mark.parametrize('client', ['anonymous'], indirect=True)
