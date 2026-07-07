@@ -26,7 +26,6 @@ async def get_user_by_login(login: str) -> User:
 
 @with_session(transaction_read_only=True)
 async def is_booking_room_slot_first_status_free(booking_date: date):
-    get_current_session().expire_all()
     slot = await get_bookings_with_rooms_and_slots_first(booking_date)
     return slot.status == BookingStatus.FREE
 
@@ -35,11 +34,17 @@ async def is_booking_room_slot_first_status_free(booking_date: date):
 async def get_bookings_with_rooms_and_slots_first(
     booking_date: date,
 ) -> BookingRoomSlotProjection:
-    get_current_session().expire_all()
-    bookings = await BookingRepository.get_bookings_with_rooms_and_slots_by_date(
+    bookings = await get_bookings_with_rooms_and_slots(booking_date)
+    return bookings[0]
+
+
+@with_session(transaction_read_only=True)
+async def get_bookings_with_rooms_and_slots(
+    booking_date: date,
+) -> list[BookingRoomSlotProjection]:
+    return await BookingRepository.get_bookings_with_rooms_and_slots_by_date(
         booking_date,
     )
-    return bookings[0]
 
 
 @with_session(transaction_read_only=False)
