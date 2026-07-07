@@ -1,0 +1,3 @@
+HEADER_AUTHORIZATION = 'Authorization'
+HEADER_AUTHENTICATE = 'WWW-Authenticate'
+HEADER_TIMEZONE = 'X-Timezone'

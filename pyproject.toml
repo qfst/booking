@@ -1,0 +1,65 @@
+[tool.poetry]
+name = 'meeting-room-booking'
+version = '1.0.0'
+description = ''
+authors = ['Dmitriy Nikulshin']
+
+[build-system]
+requires = ['poetry-core']
+build-backend = 'poetry.core.masonry.api'
+
+[tool.poetry.dependencies]
+python = '^3.13'
+fastapi = '^0.116.1'
+uvicorn = '^0.35.0'
+sqlalchemy = '^2.0.51'
+asyncpg = '^0.31.0'
+python-jose = '^3.5.0'
+pydantic-settings = '^2.10.1'
+ruff = '^0.15.20'
+pwdlib = { extras = ['argon2'], version = '^0.3.0' }
+tenacity = '^9.1.4'
+alembic = '^1.18.5'
+python-multipart = '^0.0.32'
+
+[tool.poetry.group.test.dependencies]
+pytest = '^8.4.1'
+httpx = '^0.28.1'
+pytest-asyncio = '^1.1.0'
+testcontainers = '^4.14.2'
+time-machine = '^3.2.0'
+
+[tool.pytest.ini_options]
+pythonpath = ['.']
+asyncio_mode = 'auto'
+log_cli = true
+log_cli_level = 'DEBUG'
+log_cli_format = '%(asctime)s [%(levelname)s] %(name)s (%(filename)s:%(lineno)s) - %(message)s'
+
+[tool.ruff]
+exclude = ['.git', '.venv', '__pycache__', 'build', 'dist', 'alembic/versions']
+line-length = 88
+target-version = 'py313'
+
+[tool.ruff.format]
+quote-style = 'single'
+indent-style = 'space'
+skip-magic-trailing-comma = false
+
+[tool.ruff.lint]
+select = ['E', 'W', 'F', 'I', 'B', 'C90', 'UP', 'D', 'ASYNC', 'FAST', 'PIE', 'RUF', 'SIM']
+extend-select = ['D200', 'D202', 'D400']
+ignore = ['D100', 'D104', 'D107', 'RUF001', 'RUF002']
+
+[tool.ruff.lint.per-file-ignores]
+'app/api/exception_handlers.py' = ['D103']
+'app/core/messages.py' = ['D102']
+'tests/**' = ['D101', 'D102', 'D103']
+'alembic/**' = ['D101', 'D102', 'D103']
+
+[tool.ruff.lint.pydocstyle]
+convention = 'google'
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+lines-after-imports = 2

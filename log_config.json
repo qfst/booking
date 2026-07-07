@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "disable_existing_loggers": false,
+  "formatters": {
+    "log_format": {
+      "format": "%(asctime)s [%(levelname)s] %(name)s (%(filename)s:%(lineno)s) - %(message)s",
+      "datefmt": "%Y-%m-%d %H:%M:%S"
+    }
+  },
+  "handlers": {
+    "console_handler": {
+      "class": "logging.StreamHandler",
+      "formatter": "log_format",
+      "stream": "ext://sys.stdout"
+    }
+  },
+  "loggers": {
+    "": {
+      "level": "INFO",
+      "handlers": [
+        "console_handler"
+      ]
+    },
+    "alembic": {
+      "level": "INFO",
+      "handlers": [
+        "console_handler"
+      ],
+      "propagate": false
+    },
+    "uvicorn": {
+      "level": "INFO",
+      "handlers": [
+        "console_handler"
+      ],
+      "propagate": false
+    },
+    "uvicorn.error": {
+      "level": "INFO",
+      "handlers": [
+        "console_handler"
+      ],
+      "propagate": false
+    },
+    "uvicorn.access": {
+      "level": "INFO",
+      "handlers": [
+        "console_handler"
+      ],
+      "propagate": false
+    }
+  }
+}
